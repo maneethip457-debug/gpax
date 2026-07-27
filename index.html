@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <title>โปรแกรมคำนวณเกรดเฉลี่ย</title>
+    <link rel="stylesheet" href ="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Itim&display=swap" >
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/mrrCDYBD/favicon.jpg">
+</head>
+
+<body>
+ <div class="header-container">
+    <!-- แก้ไข SVG ตรงนี้ -->
+    <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+     <path fill="#e91e63" fill-opacity="0.1" d="M0,96L60,117.3C120,139,240,181,360,197.3C480,213,600,203,720,181.3C840,160,960,128,1080,117.3C1200,107,1320,117,1380,122.7L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+     <path fill="#fce4ec" fill-opacity="0.8" d="M0,160L60,176C120,192,240,224,360,213.3C480,203,600,149,720,138.7C840,128,960,160,1080,181.3C1200,203,1320,213,1380,218.7L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+     <path fill="#f8bbd0" fill-opacity="0.6" d="M0,224L60,213.3C120,203,240,181,360,186.7C480,192,600,224,720,224C840,224,960,192,1080,176C1200,160,1320,160,1380,160L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+    </svg>
+   <header class="itim-regular">
+    <p>ㅤㅤㅤ</p>
+    <span class="gpa-badge">เครื่องมือช่วยคำนวณ </span>
+    <h1>
+        <span style="font-size: 40px;">คำนวณ</span>
+        <span style="color: mediumpurple; font-size: 50px;">GPAX</span>
+    </h1>
+    <p class="text-box">คำนวณเกรดเฉลี่ย และเกรดที่ต้องการได้ง่าย ๆ ในไม่กี่วินาที</p>
+  
+   </header>
+</div>
+
+<div class="content-wrap">
+ 
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btnGPA" onclick="setMode('gpa')">GPA รายเทอม</button>
+      <button class="mode-btn" id="btnGPAX" onclick="setMode('gpax')">GPAX สะสม</button>
+    </div>
+ 
+    <!-- GPA MODE -->
+    <div id="gpaCard" class="card">
+      <label class="field-label">จำนวนวิชา</label>
+      <div class="count-row">
+        <div>
+          
+          <input type="number" id="subjectCount" min="1" value="5">
+        </div>
+        <div class="count-actions">
+          <button class="btn btn-add" id="addRowBtn">＋ เพิ่มแถว</button>
+          <button class="btn btn-remove" onclick="removeRow('gpaTableBody')">－ ลดแถว</button>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:46px;">ลำดับ</th>
+            <th>ชื่อวิชา</th>
+            <th style="width:150px;">เกรด</th>
+            <th style="width:150px;">หน่วยกิต</th>
+          </tr>
+        </thead>
+        <tbody id="gpaTableBody"></tbody>
+      </table>
+ 
+      <div class="calc-btn-wrap">
+        <button class="btn btn-calc" onclick="calculateGPA()">คำนวณ</button>
+      </div>
+    </div>
+ 
+    <!-- GPAX MODE -->
+    <div id="gpaxCard" class="card hidden">
+      <div class="count-row">
+        <div>
+          <label class="field-label">จำนวนปีการศึกษา</label>
+          <input type="number" id="yearCount" min="1" value="2" onchange="rebuildYears()">
+        </div>
+        <div class="count-actions">
+          <button class="btn btn-add" onclick="addYear()">＋ เพิ่มปี</button>
+          <button class="btn btn-remove" onclick="removeYear()">－ ลดปี</button>
+        </div>
+      </div>
+      <div id="yearsContainer"></div>
+      <div class="calc-btn-wrap" style="margin-top:24px;">
+        <button class="btn btn-calc" onclick="calculateGPAX()">คำนวณ</button>
+      </div>
+    </div>
+ 
+    <div id="resultCard" class="card result-card hidden">
+      <div class="result-label" id="resultLabel">ผลการคำนวณ</div>
+      <div class="result-value" id="resultValue">0.00</div>
+      <div class="result-sub" id="resultSub"></div>
+    </div>
+ 
+  </div>
+
+  <script>
+const GRADES = [
+  {v:"4",   l:"A   (4.0)"},
+  {v:"3.5", l:"B+ (3.5)"},
+  {v:"3",   l:"B   (3.0)"},
+  {v:"2.5", l:"C+ (2.5)"},
+  {v:"2",   l:"C   (2.0)"},
+  {v:"1.5", l:"D+ (1.5)"},
+  {v:"1",   l:"D   (1.0)"},
+  {v:"0",   l:"F   (0.0)"},
+  
+];
+const CREDITS = [0.5,1,1.5,2,2.5,3,3.5,4];
+ 
+function gradeOptions(){
+  let html = `<option value="">เลือกเกรด</option>`;
+  GRADES.forEach(g=> html += `<option value="${g.v}">${g.l}</option>`);
+  return html;
+}
+function creditOptions(){
+  let html = `<option value="">เลือกหน่วยกิต</option>`;
+  CREDITS.forEach(c=> html += `<option value="${c}">${c} หน่วยกิต</option>`);
+  return html;
+}
+ 
+function makeRow(index){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${index}</td>
+    <td><input type="text" placeholder="ชื่อวิชา ไม่บังคับกรอก"></td>
+    <td><select class="grade-select">${gradeOptions()}</select></td>
+    <td><select class="credit-select">${creditOptions()}</select></td>
+  `;
+  return tr;
+}
+ 
+function addRow(tbodyId, count=1){
+  const tbody = document.getElementById(tbodyId);
+  for(let i=0;i<count;i++){
+    tbody.appendChild(makeRow(tbody.children.length+1));
+  }
+}
+ 
+function removeRow(tbodyId){
+  const tbody = document.getElementById(tbodyId);
+  if(tbody.children.length>1){
+    tbody.removeChild(tbody.lastChild);
+  }
+}
+ 
+addRow('gpaTableBody', 5);
+ 
+document.getElementById('subjectCount').addEventListener('change', (e)=>{
+  const target = Math.max(1, parseInt(e.target.value)||1);
+  const tbody = document.getElementById('gpaTableBody');
+  while(tbody.children.length < target) addRow('gpaTableBody');
+  while(tbody.children.length > target) removeRow('gpaTableBody');
+});
+ 
+document.getElementById('addRowBtn').onclick = ()=>{
+  addRow('gpaTableBody');
+  document.getElementById('subjectCount').value = document.getElementById('gpaTableBody').children.length;
+};
+ 
+function setMode(mode){
+  document.getElementById('resultCard').classList.add('hidden');
+  if(mode==='gpa'){
+    document.getElementById('gpaCard').classList.remove('hidden');
+    document.getElementById('gpaxCard').classList.add('hidden');
+    document.getElementById('btnGPA').classList.add('active');
+    document.getElementById('btnGPAX').classList.remove('active');
+  }else{
+    document.getElementById('gpaCard').classList.add('hidden');
+    document.getElementById('gpaxCard').classList.remove('hidden');
+    document.getElementById('btnGPA').classList.remove('active');
+    document.getElementById('btnGPAX').classList.add('active');
+    if(document.getElementById('yearsContainer').children.length===0){
+      rebuildYears();
+    }
+  }
+}
+ 
+function calcFromRows(rows){
+  let totalCredits = 0, totalPoints = 0;
+  rows.forEach(tr=>{
+    const grade = tr.querySelector('.grade-select').value;
+    const credit = parseFloat(tr.querySelector('.credit-select').value);
+    if(!grade || grade==='w' || !credit) return;
+    totalCredits += credit;
+    totalPoints += credit * parseFloat(grade);
+  });
+  return {totalCredits, totalPoints};
+}
+ 
+function calculateGPA(){
+  const rows = [...document.getElementById('gpaTableBody').children];
+  const {totalCredits, totalPoints} = calcFromRows(rows);
+  const result = totalCredits>0 ? (totalPoints/totalCredits) : 0;
+  showResult('GPA ของคุณ', result, `รวม ${totalCredits} หน่วยกิต`);
+}
+ 
+let yearCounter = 0;
+function rebuildYears(){
+  const container = document.getElementById('yearsContainer');
+  container.innerHTML = '';
+  yearCounter = 0;
+  const target = Math.max(1, parseInt(document.getElementById('yearCount').value)||1);
+  for(let i=0;i<target;i++) addYearBlock();
+}
+ 
+function addYear(){
+  addYearBlock();
+  document.getElementById('yearCount').value = document.getElementById('yearsContainer').children.length;
+}
+ 
+function removeYear(){
+  const container = document.getElementById('yearsContainer');
+  if(container.children.length>1){
+    container.removeChild(container.lastChild);
+    document.getElementById('yearCount').value = container.children.length;
+  }
+}
+ 
+function addYearBlock(){
+  yearCounter++;
+  const yearId = 'year_' + yearCounter + '_' + Date.now();
+  const container = document.getElementById('yearsContainer');
+  const block = document.createElement('div');
+  block.className = 'semester-block';
+  block.innerHTML = `
+    <span class="year-tag">ปีการศึกษาที่ ${container.children.length+1}</span>
+    <div class="semester-head">
+      <span class="semester-title">ภาคเรียนที่ 1</span>
+    </div>
+    <table>
+      <thead><tr><th style="width:46px;">ลำดับ</th><th>ชื่อวิชา</th><th style="width:150px;">เกรด</th><th style="width:150px;">หน่วยกิต</th></tr></thead>
+      <tbody id="${yearId}_s1"></tbody>
+    </table>
+    <div style="text-align:right;margin:6px 0 18px;">
+      <button class="btn btn-add" onclick="addRow('${yearId}_s1')" style="font-size:13px;padding:8px 16px;">＋ เพิ่มวิชา</button>
+    </div>
+    <div class="semester-head">
+      <span class="semester-title">ภาคเรียนที่ 2</span>
+    </div>
+    <table>
+      <thead><tr><th style="width:46px;">ลำดับ</th><th>ชื่อวิชา</th><th style="width:150px;">เกรด</th><th style="width:150px;">หน่วยกิต</th></tr></thead>
+      <tbody id="${yearId}_s2"></tbody>
+    </table>
+    <div style="text-align:right;margin-top:6px;">
+      <button class="btn btn-add" onclick="addRow('${yearId}_s2')" style="font-size:13px;padding:8px 16px;">＋ เพิ่มวิชา</button>
+    </div>
+  `;
+  container.appendChild(block);
+  addRow(`${yearId}_s1`, 3);
+  addRow(`${yearId}_s2`, 3);
+}
+ 
+function calculateGPAX(){
+  const container = document.getElementById('yearsContainer');
+  let totalCredits = 0, totalPoints = 0;
+  container.querySelectorAll('tbody').forEach(tbody=>{
+    const rows = [...tbody.children];
+    const {totalCredits:tc, totalPoints:tp} = calcFromRows(rows);
+    totalCredits += tc; totalPoints += tp;
+  });
+  const result = totalCredits>0 ? (totalPoints/totalCredits) : 0;
+  showResult('GPAX สะสมของคุณ', result, `รวม ${totalCredits} หน่วยกิต ตลอดหลักสูตร`);
+}
+ 
+function showResult(label, value, sub){
+  document.getElementById('resultLabel').textContent = label;
+  document.getElementById('resultValue').textContent = value.toFixed(2);
+  document.getElementById('resultSub').textContent = sub;
+  const card = document.getElementById('resultCard');
+  card.classList.remove('hidden');
+  card.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+</script>
+
+
+</body>
+
+</html>

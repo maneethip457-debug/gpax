@@ -1,0 +1,312 @@
+.gpa-badge {
+  display: inline-block;
+  background-color: #f4cbfa; 
+  color: mediumpurple;
+  padding: 6px 20px;           
+  border-radius: 50px;       
+  font-weight: bold;         
+  font-size: 16px;   
+  box-shadow: 0 10px 14px rgba(147,112,219,0.35);
+}
+
+
+header {
+   background: linear-gradient(135deg, #f0e6f7,#ffdbf9 , #f0e6f7);
+  height: 300px;
+  text-align: center;
+  z-index: 6;
+}
+
+.itim-regular {
+  font-family: "Itim", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.text-box{
+  color: rgb(111, 111, 111);
+  font-size: 20px;
+
+}
+
+.header-container {
+    position: relative; /* เพื่อให้คลื่นอยู่ด้านหลัง */
+    width: 100%;
+    overflow: hidden; /* ป้องกันคลื่นเกินออกไป */
+    background-color: #fff; /* หรือสีพื้นหลังของคุณ */
+}
+
+.waves {
+    position: absolute;
+    bottom: 0; /* วางที่ฐานของ container */
+    width: 100%;
+    height: auto;
+    max-height: 70px; /* กำหนดความสูงของคลื่น */
+    display: block;
+}
+
+/* ตกแต่งเนื้อหา */
+.content-box {
+    position: relative;
+    z-index: 10; /* เพื่อให้อยู่ด้านหน้าคลื่น */
+    text-align: center;
+    padding: 100px 20px; /* เพิ่มพื้นที่ */
+}
+/* ใส่ CSS สำหรับ Badge, H1, P ตามลำดับ... */
+
+ *{ box-sizing: border-box; }
+ 
+  body{
+    margin:0;
+    font-family: "Itim", cursive;
+    background: #fcf4fb;
+    color: #5c4a6b;
+  }
+ 
+  .content-wrap{
+    max-width: 880px;
+    margin: 10px auto 60px;
+    padding: 0 16px 60px;
+    position: relative;
+    border-radius: 999px;
+    z-index: 5;
+  }
+ 
+  .mode-toggle{
+    display:flex;
+    place-content:center;
+    gap: 6px;
+    background: #fff;
+    padding: 6px;
+    border-radius: 999px;
+    box-shadow: 0 8px 22px rgba(147, 112, 219, 0.18);
+    width: fit-content;
+    height: fit-content;
+    margin: 0 auto 24px;
+  }
+ 
+  .mode-btn{
+    border:none;
+    cursor:pointer;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 16px;
+    padding: 10px 26px;
+    border-radius: 999px;
+    background: transparent;
+    color: mediumpurple;
+    transition: all .2s ease;
+  }
+ 
+  .mode-btn.active{
+    background: linear-gradient(135deg, #c9a6f7, mediumpurple);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(147,112,219,0.35);
+  }
+ 
+  .card{
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 10px 28px rgba(147, 112, 219, 0.14);
+    padding: 28px;
+    margin-bottom: 22px;
+    border: 1.5px solid #f4e3fb;
+    text-align: left;
+    height: fit-content;
+  }
+ 
+  .count-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    background: 50px;
+   
+  }
+ 
+  .field-label{
+    font-size: 14px;
+    font-weight: 400;
+    color: mediumpurple;
+    margin-bottom: 8px;
+    display:block;
+  }
+ 
+  input[type="number"], input[type="text"]{
+    font-family: inherit;
+    font-size: 15px;
+    padding: 12px 16px;
+    border-radius: 400px;
+    border: 1.5px solid #ecd9f7;
+    background: #faf1fc;
+    color: #5c4a6b;
+    outline:none;
+    transition: border-color .15s ease, background .15s ease;
+  }
+
+  input[type="number"]:focus, input[type="text"]:focus{
+    border-color: mediumpurple;
+    background:#fff;
+  }
+ 
+  #subjectCount{ width: 200px; }
+ 
+  .count-actions{
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: fit-content;
+    height: fit-content;
+  }
+ 
+  .btn{
+    font-family: inherit;
+    font-weight:400;
+    font-size: 15px;
+    border:none;
+    cursor:pointer;
+    border-radius: 999px;
+    padding: 11px 20px;
+    display:inline-flex;
+    align-items:center;
+    gap: 7px;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+  .btn:active{ transform: scale(0.96); }
+ 
+  .btn-add{
+    background: linear-gradient(135deg, #c9a6f7, mediumpurple);
+    color:#fff;
+    box-shadow: 0 6px 14px rgba(147,112,219,0.3);
+  }
+  .btn-remove{
+    background: linear-gradient(135deg, #f8b6cd, #f48fb1);
+    color:#fff;
+    box-shadow: 0 6px 14px rgba(244,143,177,0.35);
+  }
+ 
+  table{
+    width:100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+ 
+  thead th{
+    text-align:left;
+    font-size: 13.5px;
+    color: mediumpurple;
+    font-weight:400;
+    padding: 0 14px 6px;
+  }
+ 
+  
+   
+  tbody tr{
+    background: #faf1fc;
+    border-radius: 14px;
+  }
+ 
+  tbody td{
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+ 
+  tbody td:first-child{
+    border-radius: 30px 0 0 30px;
+    color: mediumpurple;
+    width: 46px;
+    text-align:center;
+  }
+  tbody td:last-child{ border-radius: 0 30px 30px 0; }
+ 
+  tbody input[type="text"]{
+    width:100%;
+    background:#fff;
+    border: 1.5px solid transparent;
+  }
+  
+  tbody input[type="text"]:focus{ border-color: mediumpurple; }
+ 
+  select{
+    font-family: inherit;
+    font-size: 15px;
+    padding: 10px 14px;
+    border-radius: 28px;
+    border: 1.5px solid transparent;
+    background: #fff;
+    color: #5c4a6b;
+    width:100%;
+    outline:none;
+    cursor:pointer;
+    appearance:none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239370db' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  select:focus{ border-color: mediumpurple; }
+ 
+  .year-tag{
+    display:inline-block;
+    font-size: 12.5px;
+    color: mediumpurple;
+    background: #f0e0fb;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin: 4px 0 10px;
+  }
+ 
+  .semester-block + .semester-block{ margin-top: 26px; }
+ 
+  .semester-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom: 8px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+ 
+  .semester-title{
+    font-weight:400;
+    color: #5c4a6b;
+    font-size: 16px;
+  }
+ 
+  .calc-btn-wrap{ text-align:center; margin-top: 20px; }
+ 
+  .btn-calc{
+    background: linear-gradient(135deg, mediumpurple, #8a5fd1);
+    color:#fff;
+    font-size: 17px;
+    padding: 14px 46px;
+    border-radius: 999px;
+    box-shadow: 0 10px 22px rgba(147,112,219,0.35);
+  }
+  .btn-calc:hover{ opacity:.94; }
+ 
+  .result-card{
+    margin-top: 4px;
+    text-align:center;
+    background: linear-gradient(135deg, #f2cafb, #fdeef5);
+    border: 1.5px solid #f0e0fb;
+  }
+  .result-label{ font-size:15px; color:rgb(111,111,111); margin-bottom:6px; }
+  .result-value{
+    font-size: 52px;
+    font-weight:400;
+    color: mediumpurple;
+    line-height:1;
+  }
+  .result-sub{ font-size: 14px; color:rgb(111,111,111); margin-top: 10px; }
+ 
+  .hidden{ display:none !important; }
+ 
+  @media (max-width: 620px){
+    .card{ padding: 18px; }
+    thead{ display:none; }
+    tbody tr{ display:flex; flex-direction:column; gap:8px; padding: 14px; }
+    tbody td{ padding: 0; border-radius:0 !important; width:auto !important; text-align:left !important; }
+    tbody td:first-child::before{ content: "ลำดับ "; color:rgb(111,111,111); }
+  }
